@@ -1,0 +1,10 @@
+void main() {
+  var areaCirculo = area(5);
+  print('Area: $areaCirculo');
+}
+
+double area(int raio) {
+  double a = 3.14 * (raio * raio) ;
+  return a;
+}
+
