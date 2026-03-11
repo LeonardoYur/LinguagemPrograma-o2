@@ -1,0 +1,20 @@
+void main() {
+  var notas = [8.5, 4.0, 7.5, 9.0, 5.5, 3.0, 10.0, 6.0];
+  const double notaMinimaAprovacao = 6.0;
+
+  var notasAprovados =
+      notas.where((nota) => nota >= notaMinimaAprovacao).toList();
+
+  if (notasAprovados.isEmpty) {
+    print('Não há alunos aprovados para calcular a média.');
+  } else {
+    double somaNotas = notasAprovados.reduce((value, element) => value + element);
+
+    double media = somaNotas / notasAprovados.length;
+
+    print(
+        'Notas dos alunos aprovados: $notasAprovados');
+    print(
+        'A média das notas dos alunos aprovados é: $media');
+  }
+}
