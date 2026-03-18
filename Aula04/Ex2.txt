@@ -1,0 +1,28 @@
+class Carro {
+  int portas = 0;
+  int rodas = 4;
+  int velocidade = 0;
+  Carro(this.portas);
+  String estado() {
+    return 'Carro com $portas portas. Velocidade: $velocidade km/h';
+  }
+  int acelera(){
+    return velocidade + 5;
+  }
+  int freia(){
+    if(velocidade <= 10)
+    {
+      return velocidade = 0;
+    }else{
+      return velocidade - 10;
+    }
+  }
+
+}
+
+void main() {
+  Carro novo = Carro(4);
+  print(novo.estado());
+}
+
+
