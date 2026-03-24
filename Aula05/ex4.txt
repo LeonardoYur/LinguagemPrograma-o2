@@ -1,0 +1,42 @@
+abstract class Forma {
+  String cor;
+  Forma(this.cor);
+  String paraSVG();
+}
+
+class Reta extends Forma {
+  double x1, y1, x2, y2;
+  Reta(this.x1, this.y1, this.x2, this.y2, String cor) : super(cor);
+  @override
+  String paraSVG() {
+    return '<line x1="$x1" y1="$y1" x2="$x2" y2="$y2" stroke="$cor" stroke-width="2" />';
+  }
+}
+
+class Circulo extends Forma {
+  double cx, cy, r;
+  Circulo(this.cx, this.cy, this.r, String cor) : super(cor);
+  @override
+  String paraSVG() {
+    return '  <circle cx="50" cy="50" r="50" fill="$cor"/>';
+  }
+}
+
+class Painel {
+  List<Forma> formas = [];
+  void adicionar(Forma f) => formas.add(f);
+  void imprimirCodigo() {
+    print('<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">');
+    for (var forma in formas) {
+      print(' ${forma.paraSVG()}');
+    }
+    print('</svg>');
+  }
+}
+
+void main() {
+  var meuDesenho = Painel();
+  meuDesenho.adicionar(Reta(0, 0, 100, 100, "red"));
+  meuDesenho.adicionar(Circulo(50, 50, 50, "red"));
+  meuDesenho.imprimirCodigo();
+}

@@ -1,0 +1,31 @@
+class Animal {
+  String nome;
+  Animal(this.nome);
+  void emitirSom() {
+    print("$nome está fazendo um som.");
+  }
+}
+
+class Cachorro extends Animal {
+  Cachorro(String nome) : super(nome);
+  void farejar() {
+    print("$nome está farejando.");
+  }
+
+  @override
+  void emitirSom() {
+    print("$nome diz: Au Au!");
+  }
+}
+
+class Gato extends Animal {
+  Gato(String nome) : super(nome);
+  void farejar() {
+    print("$nome está farejando.");
+  }
+
+  @override
+  void emitirSom() {
+    print("$nome diz: Miau!");
+  }
+}
