@@ -1,0 +1,11 @@
+const doisSegundos = Duration(seconds: 2);
+
+Future<void> imprimeDemorado(String mensagem) async {
+  await Future.delayed(doisSegundos);
+  print(mensagem);
+}
+
+void main() async {
+  print('hello');
+  await imprimeDemorado('world');
+}
