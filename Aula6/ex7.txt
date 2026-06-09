@@ -1,0 +1,22 @@
+import 'dart:io';
+import 'package:env_variables/env_variables.dart';
+
+void main(List<String> arguments) async {
+  print('Content-Type:text/html;charset=iso-8859-1;\n');
+
+  String dados = EnvVariables.fromEnvironment('QUERY_STRING');
+
+  Uri uri = Uri(query: dados);
+  var parametros = uri.queryParameters;
+
+  var nome = parametros["nome"];
+
+  var arquivo = File('churrasco.txt');
+
+  await arquivo.writeAsString(
+    '$nome\n',
+    mode: FileMode.append,
+  );
+
+  print('<h1>$nome foi adicionado ao churrasco!</h1>');
+}
