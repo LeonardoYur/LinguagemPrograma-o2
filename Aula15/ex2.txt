@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const AppSimples());
+}
+
+class AppSimples extends StatelessWidget {
+  const AppSimples({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: TelaPrincipal(),
+    );
+  }
+}
+
+class Time {
+  String nome;
+  int pontos;
+
+  Time(this.nome, this.pontos);
+}
+
+class TelaPrincipal extends StatefulWidget {
+  const TelaPrincipal({super.key});
+
+  @override
+  State<TelaPrincipal> createState() => _TelaPrincipalState();
+}
+
+class _TelaPrincipalState extends State<TelaPrincipal> {
+  final List<Time> _times = [];
+
+  final TextEditingController _nomeController =
+      TextEditingController();
+
+  final TextEditingController _pontosController =
+      TextEditingController();
+
+  void _adicionarTime() {
+    if (_nomeController.text.isNotEmpty &&
+        _pontosController.text.isNotEmpty) {
+      setState(() {
+        _times.add(
+          Time(
+            _nomeController.text,
+            int.parse(_pontosController.text),
+          ),
+        );
+
+        _nomeController.clear();
+        _pontosController.clear();
+      });
+    }
+  }
+
+  void _classificar() {
+    if (_times.length < 2) return;
+
+    _times.sort(
+      (a, b) => b.pontos.compareTo(a.pontos),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Classificados"),
+        content: Text(
+          "1º ${_times[0].nome} - ${_times[0].pontos} pontos\n"
+          "2º ${_times[1].nome} - ${_times[1].pontos} pontos",
+        ),
+      ),
+    );
+  }
+
+  List<String> _gerarJogos() {
+    List<String> jogos = [];
+
+    for (int i = 0; i < _times.length; i++) {
+      for (int j = i + 1; j < _times.length; j++) {
+        jogos.add(
+          "${_times[i].nome} x ${_times[j].nome}",
+        );
+      }
+    }
+
+    return jogos;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> jogos = _gerarJogos();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Copa do Mundo"),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextField(
+              controller: _nomeController,
+              decoration: const InputDecoration(
+                labelText: "Nome do Time",
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextField(
+              controller: _pontosController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "Pontos",
+              ),
+            ),
+          ),
+
+          ElevatedButton(
+            onPressed: _adicionarTime,
+            child: const Text("Adicionar"),
+          ),
+
+          ElevatedButton(
+            onPressed: _classificar,
+            child: const Text("Classificar"),
+          ),
+
+          const SizedBox(height: 10),
+
+          Expanded(
+            child: ListView.builder(
+              itemCount: jogos.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(jogos[index]),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

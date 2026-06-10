@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const AppSimples());
+}
+
+class AppSimples extends StatelessWidget {
+  const AppSimples({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: TelaPrincipal(),
+    );
+  }
+}
+
+class TelaPrincipal extends StatefulWidget {
+  const TelaPrincipal({super.key});
+
+  @override
+  State<TelaPrincipal> createState() => _TelaPrincipalState();
+}
+
+class _TelaPrincipalState extends State<TelaPrincipal> {
+  final List<String> _times = [];
+  final TextEditingController _controller = TextEditingController();
+
+  void _adicionarTime() {
+    if (_controller.text.isNotEmpty && _times.length < 4) {
+      setState(() {
+        _times.add(_controller.text);
+        _controller.clear();
+      });
+    }
+  }
+
+  List<String> _gerarJogos() {
+    List<String> jogos = [];
+
+    for (int i = 0; i < _times.length; i++) {
+      for (int j = i + 1; j < _times.length; j++) {
+        jogos.add("${_times[i]} x ${_times[j]}");
+      }
+    }
+
+    return jogos;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> jogos = _gerarJogos();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Jogos da Copa"),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      labelText: "Digite um time",
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: _adicionarTime,
+                  child: const Text("Adicionar"),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: jogos.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(jogos[index]),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
